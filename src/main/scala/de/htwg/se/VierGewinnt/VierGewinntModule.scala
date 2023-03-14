@@ -17,7 +17,7 @@ import net.codingwell.scalaguice.ScalaModule
 
 /** Module for dependency injection, decides which interfaces and default parameter to use. */
 class VierGewinntModule extends AbstractModule {
-  //test
+  //testtt
   override def configure(): Unit =
     bind(classOf[ControllerInterface]).to(classOf[controllerBaseImpl.Controller])
 
