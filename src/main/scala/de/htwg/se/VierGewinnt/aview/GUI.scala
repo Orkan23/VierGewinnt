@@ -1,43 +1,53 @@
 /** Graphical User Interface for VierGewinnt.
- *
- * @author Thu Ha Dinh & Orkan Yücetag & Victor Gänshirt */
+  *
+  * @author
+  *   Victor Gänshirt & Orkan Yücetag
+  */
 package de.htwg.se.VierGewinnt.aview
 
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
-import de.htwg.se.VierGewinnt.util.{Move, Observer}
+import de.htwg.se.VierGewinnt.util.Move
+import de.htwg.se.VierGewinnt.util.Observer
+import java.util.Optional
 import javafx.animation
+import scala.io.AnsiColor.BLUE_B
+import scala.io.AnsiColor.RED_B
+import scala.io.AnsiColor.YELLOW_B
+import scala.language.postfixOps
+import scalafx.animation.*
 import scalafx.application.JFXApp3
 import scalafx.application.Platform
 import scalafx.application.Platform.*
 import scalafx.event.ActionEvent
-import scalafx.scene.control.{Button, Label, Menu, MenuBar, MenuItem, TextInputDialog}
+import scalafx.scene.control.Button
+import scalafx.scene.control.Label
+import scalafx.scene.control.Menu
+import scalafx.scene.control.MenuBar
+import scalafx.scene.control.MenuItem
+import scalafx.scene.control.TextInputDialog
 import scalafx.scene.effect.BlendMode.Blue
 import scalafx.scene.input.MouseEvent
 import scalafx.scene.layout.*
+import scalafx.scene.layout.GridPane.getRowIndex
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Circle
+import scalafx.scene.shape.Circle.sfxCircle2jfx
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.Scene
-import scalafx.animation.*
-import scalafx.Includes.{at, *}
-import scalafx.scene.shape.Circle.sfxCircle2jfx
+import scalafx.Includes.*
+import scalafx.Includes.at
 
-import scala.io.AnsiColor.{BLUE_B, RED_B, YELLOW_B}
-import java.util.Optional
-import scala.language.postfixOps
-
-/** GUI class, the graphical user interface.
- * Extends the Observer class to be compatible with the model-view-controller architecture.
- *
- * @param controller Controller as parameter, which controls this GUI.
- */
-case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
+/** GUI class, the graphical user interface. Extends the Observer class to be compatible with the model-view-controller architecture.
+  *
+  * @param controller
+  *   Controller as parameter, which controls this GUI.
+  */
+case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
   controller.add(this)
-  //use val instead of var to make it immutable
-  val chips: Vector[Vector[Circle]] = emptyChips()
-  val chipGrid: GridPane = emptyGrid()
-  val playgroundstatus = new Menu(controller.playgroundState)
-  val statestatus = new Menu(controller.printState)
+  var chips: Vector[Vector[Circle]] = emptyChips()
+  var chipGrid: GridPane = emptyGrid()
+  var playgroundstatus = new Menu(controller.playgroundState)
+  var statestatus = new Menu(controller.printState)
 
   /** Updates the GUI with chips and grid from the controller. */
   override def update: Unit =
@@ -45,24 +55,22 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
     controller.winnerChips match {
       case Some(v) => win(v._2, v._3, v._4, v._5)
       case None =>
-        chips.zipWithIndex.foreach((subList, i) => {
-          for ((element, j) <- subList.zipWithIndex)
+        chips.zipWithIndex.map { case (subList, i) =>
+          subList.zipWithIndex.map { case (element, j) =>
             controller.getChipColor(j, i) match {
-              case BLUE_B => //Empty
+              case BLUE_B => // Empty
                 element.fill = Color.Gray
-              case RED_B => //Red
-                if element.getFill() != Color.sfxColor2jfx(Color.Red) then
-                  animateDrop(element, Color.Red)
-              case YELLOW_B => //Yellow
-                if element.getFill() != Color.sfxColor2jfx(Color.Yellow) then
-                  animateDrop(element, Color.Yellow)
+              case RED_B => // Red
+                if element.getFill != Color.sfxColor2jfx(Color.Red) then animateDrop(element, Color.Red)
+              case YELLOW_B => // Yellow
+                if element.getFill != Color.sfxColor2jfx(Color.Yellow) then animateDrop(element, Color.Yellow)
             }
-        })
+          }
+        }
     }
 
-
   def win(a: (Int, Int), b: (Int, Int), c: (Int, Int), d: (Int, Int)): Unit =
-    val tmpCol = if controller.getChipColor(a._1,a._2) == YELLOW_B then Color.Yellow else Color.Red
+    val tmpCol = if controller.getChipColor(a._1, a._2) == YELLOW_B then Color.Yellow else Color.Red
     val t = Timeline(
       Seq(
         at(0.0 s) {
@@ -100,24 +108,26 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
         },
         at(1.5 s) {
           chips(d._2)(d._1).fill -> Color.Green
-        },
+        }
       )
     )
     t.setCycleCount(5)
     t.play()
 
-
   /** Animates the dropping of a chip into his position.
-   *
-   * @param element Choose the element type to be animated.
-   * @param color   Choose the element color to be animated.
-   */
+    *
+    * @param element
+    *   Choose the element type to be animated.
+    * @param color
+    *   Choose the element color to be animated.
+    */
   def animateDrop(element: Circle, color: Color): Unit =
     Timeline(
       Seq(
         at(0.0 s) {
           element.translateY -> -500.0
-        }, at(0.0 s) {
+        },
+        at(0.0 s) {
           element.fill -> Color.Gray
         },
         at(0.3 s) {
@@ -131,9 +141,9 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
 
   /** Builds the GUI application. */
   override def start(): Unit =
-    stage = new JFXApp3.PrimaryStage :
+    stage = new JFXApp3.PrimaryStage:
       title.value = "VierGewinnt"
-      scene = new Scene :
+      scene = new Scene:
         fill = Color.DarkBlue
         val menu = new MenuBar {
           menus = List(
@@ -151,11 +161,11 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
                       result = dialog.showAndWait()
 
                     controller.setupGame(0, result.get.toInt)
-                    //Update Grid to new Size
-                    emptyGrid()
+                    chipGrid = emptyGrid() // Update Grid to new Size
                     start()
                   }
-                }, new MenuItem("New PvE") {
+                },
+                new MenuItem("New PvE") {
                   onAction = (event: ActionEvent) => {
                     val dialog = new TextInputDialog("7") {
                       initOwner(stage)
@@ -167,7 +177,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
                       result = dialog.showAndWait()
 
                     controller.setupGame(1, result.get.toInt)
-                    emptyGrid() //Update Grid to new Size
+                    chipGrid = emptyGrid() // Update Grid to new Size
                     start()
                   }
                 },
@@ -178,7 +188,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
                   onAction = (event: ActionEvent) =>
                     controller.load
                     start()
-                },
+                }
               )
             },
             new Menu("Control") {
@@ -201,7 +211,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
           )
         }
 
-        var vBox = new VBox() :
+        var vBox = new VBox():
           children = List(menu, chipGrid)
 
         content = new VBox() {
@@ -211,27 +221,28 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
     statestatus.setText(controller.printState)
 
   /** Places empty gray circles with the size 50 into a vector.
-   *
-   * @return Returns a new Matrix with circles.
-   */
+    *
+    * @return
+    *   Returns a new Matrix with circles.
+    */
   def emptyChips(): Vector[Vector[Circle]] = Vector.fill(controller.gridSize, controller.gridSize)(Circle(50, fill = Color.Gray))
 
-
-  /** Checks if the chips size equals the controller gridsize to prevent having a ScalaFX Threading error.
-   * If the chips size does not equal the controller size, update the chips and the grid with an empty one. */
+  /** Checks if the chips size equals the controller gridsize to prevent having a ScalaFX Threading error. If the chips size does not equal the
+    * controller size, update the chips and the grid with an empty one.
+    */
   def checkChipSize(): Unit =
     if (!chips.length.equals(controller.gridSize)) {
-      emptyChips()
-      emptyGrid()
+      chips = emptyChips()
+      chipGrid = emptyGrid()
     }
 
-  /** Creates an empty grid with the size of chips.
-   * If mouse clicked on the grid, insert a new chip and update the status text.
-   *
-   * @return Returns an empty GridPane.
-   */
+  /** Creates an empty grid with the size of chips. If mouse clicked on the grid, insert a new chip and update the status text.
+    *
+    * @return
+    *   Returns an empty GridPane.
+    */
   def emptyGrid(): GridPane =
-    new GridPane :
+    new GridPane:
       for ((subList, i) <- chips.zipWithIndex) {
         for ((element, j) <- subList.zipWithIndex) {
           element.onMouseClicked = (event: MouseEvent) =>
