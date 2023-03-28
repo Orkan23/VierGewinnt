@@ -75,17 +75,17 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
       case Some(v) => result = Some(v)
       case None => None
     }
-    if (result == None)
+    if (result.isEmpty)
       checkVerticalWin() match {
         case Some(v) => result = Some(v)
         case None => None
       }
-    if (result == None)
+    if (result.isEmpty)
       checkDiagonalUpRightWin() match {
         case Some(v) => result = Some(v)
         case None => None
       }
-    if (result == None)
+    if (result.isEmpty)
       checkDiagonalUpLeftWin() match {
         case Some(v) => result = Some(v)
         case None => None
