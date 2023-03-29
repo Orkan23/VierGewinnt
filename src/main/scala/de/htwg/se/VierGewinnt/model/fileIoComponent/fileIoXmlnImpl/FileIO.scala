@@ -1,11 +1,14 @@
 /** FileIO XML Implementation for VierGewinnt.
- *
- * @author Victor Gänshirt & Orkan Yücetag */
+  *
+  * @author
+  *   Victor Gänshirt & Orkan Yücetag
+  */
 package de.htwg.se.VierGewinnt.model.fileIoComponent.fileIoXmlnImpl
 
 import com.google.inject.Guice
 import de.htwg.se.VierGewinnt.VierGewinntModule
 import de.htwg.se.VierGewinnt.model.fileIoComponent.FileIOInterface
+import de.htwg.se.VierGewinnt.model.fileIoComponent.Util.getNameAndChip
 import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Cell, Chip, Grid}
 import de.htwg.se.VierGewinnt.model.playgroundComponent.{PlaygroundInterface, playgroundBaseImpl}
@@ -22,12 +25,12 @@ class FileIO extends FileIOInterface {
   /** Load the game from a "playground.xml" file and return the playground. */
   override def load: PlaygroundInterface =
     val file = scala.xml.XML.loadFile("playground.xml")
-    val size = file \\ "playground" \ "@size"
-    val gameType = file \\ "playground" \ "@gameType"
-    val player1 = file \\ "playground" \ "@player1"
-    val player2 = file \\ "playground" \ "@player2"
+    val size = (file \\ "playground" \ "@size").text
+    val gameType = (file \\ "playground" \ "@gameType").text
+    val player1 = (file \\ "playground" \ "@player1").text
+    val player2 = (file \\ "playground" \ "@player2").text
 
-    var grid: GridInterface = new Grid(size.text.toInt)
+    var grid: GridInterface = new Grid(size.toInt)
 
     val cellNodes = file \\ "cell"
     for (cell <- cellNodes) {
@@ -35,8 +38,8 @@ class FileIO extends FileIOInterface {
       val col: Int = (cell \\ "@col").text.toInt
 
       var _grid = (cell \\ "@chip").text match
-        case "EMPTY" => grid.replaceCell(row, col, Cell(Chip.EMPTY))
-        case "RED" => grid.replaceCell(row, col, Cell(Chip.RED))
+        case "EMPTY"  => grid.replaceCell(row, col, Cell(Chip.EMPTY))
+        case "RED"    => grid.replaceCell(row, col, Cell(Chip.RED))
         case "YELLOW" => grid.replaceCell(row, col, Cell(Chip.YELLOW))
 
       _grid match
@@ -44,28 +47,30 @@ class FileIO extends FileIOInterface {
         case Failure(e) =>
     }
 
-    val pl1 = (player1.text.split("&")(0), if (player1.text.split("&")(1)) == "RED" then Chip.RED else Chip.YELLOW)
-    val pl2 = (player2.text.split("&")(0), if (player2.text.split("&")(1)) == "RED" then Chip.RED else Chip.YELLOW)
-    if (gameType.text == "0") then
-      PlaygroundPvP(grid, List(HumanPlayer(pl1._1, pl1._2), HumanPlayer(pl2._1, pl2._2)))
-    else
-      PlaygroundPvE(grid, List(HumanPlayer(pl1._1, pl1._2), BotPlayer(pl2._1, pl2._2)))
+    val pl1: (String, Chip) = getNameAndChip(player1)
+    val pl2: (String, Chip) = getNameAndChip(player2)
+
+    if (gameType == "0") then PlaygroundPvP(grid, List(HumanPlayer(pl1._1, pl1._2), HumanPlayer(pl2._1, pl2._2)))
+    else PlaygroundPvE(grid, List(HumanPlayer(pl1._1, pl1._2), BotPlayer(pl2._1, pl2._2)))
 
   /** Save the game to a "playground.json" file.
-   *
-   * @param playground The playground to save.
-   */
+    *
+    * @param playground
+    *   The playground to save.
+    */
 
   /** Call the saveString function to save the game to a "playground.xml" file.
-   *
-   * @param playground The playground to save.
-   */
+    *
+    * @param playground
+    *   The playground to save.
+    */
   override def save(playground: PlaygroundInterface): Unit = saveString(playground)
 
   /** Save the game to a "playground.xml" file.
-   *
-   * @param playground The playground to save.
-   */
+    *
+    * @param playground
+    *   The playground to save.
+    */
   def saveString(pg: PlaygroundInterface): Unit = {
     import java.io._
     val pw = new PrintWriter(new File("playground.xml"))
@@ -77,7 +82,9 @@ class FileIO extends FileIOInterface {
 
   /** Converts the given playground to XML. */
   def pgToXml(pg: PlaygroundInterface) = {
-    <playground size={pg.size.toString} gameType={if pg.isInstanceOf[PlaygroundPvP] then "0" else "1"} player1={pg.player(0).getName() + "&" + pg.player(0).getChip()} player2={pg.player(1).getName() + "&" + pg.player(1).getChip()}>
+    <playground size={pg.size.toString} gameType={if pg.isInstanceOf[PlaygroundPvP] then "0" else "1"} player1={
+      pg.player(0).getName() + "&" + pg.player(0).getChip()
+    } player2={pg.player(1).getName() + "&" + pg.player(1).getChip()}>
       {gridToXmL(pg.grid)}
     </playground>
   }
