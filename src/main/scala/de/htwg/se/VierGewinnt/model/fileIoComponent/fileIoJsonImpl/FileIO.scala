@@ -1,6 +1,6 @@
 /** FileIO JSON Implementation for VierGewinnt.
  *
- * @author Thu Ha Dinh & Orkan Yücetag */
+ * @author Victor Gänshirt & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.model.fileIoComponent.fileIoJsonImpl
 
 import play.api.libs.json.*
@@ -17,7 +17,7 @@ import scala.util.{Failure, Success}
 
 /** FileIO JSON Implementation, to save and load the state of a game with a JSON file. */
 class FileIO extends FileIOInterface {
-  
+
   /** Load the game from a "playground.json" file and return the playground. */
   override def load: PlaygroundInterface =
     val source: String = Source.fromFile("playground.json").getLines().mkString

@@ -1,6 +1,6 @@
 /** Grid Interface for VierGewinnt.
  *
- * @author Thu Ha Dinh & Orkan Yücetag */
+ * @author Victor Gänshirt & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.model.gridComponent
 
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Cell, Chip}
@@ -14,7 +14,7 @@ import scala.util.{Failure, Success, Try}
 trait GridInterface:
 
   /** Return the cell on a specific coordinate of the grid.
-   * 
+   *
    * @param row Y-coordinate.
    * @param col X-coordinate.
    * @return Return the found cell.
@@ -23,11 +23,11 @@ trait GridInterface:
 
   /** Return the matrix of the grid. */
   def get2DVector(): Vector[Vector[Cell]]
-  
+
   /** Replace a cell with a Try-Monade.
    * If faulty coordinates were given, return a failure, otherwise a success with the new grid. */
   def replaceCell(row: Int, col: Int, cell: Cell): Try[GridInterface]
-  
+
   /** Remove a cell with a Try-Monade.
    * If faulty coordinates were given, return a failure, otherwise a success with the new grid. */
   def removeCell(row: Int, col: Int): Try[GridInterface]
@@ -38,18 +38,18 @@ trait GridInterface:
   /** Check if the grid is full, return a boolean. */
   def checkFull(): Boolean
 
-  /** Check if someone has won (4 Chips touch each other horizontally, vertically or diagonally) using Option. 
-   * 
+  /** Check if someone has won (4 Chips touch each other horizontally, vertically or diagonally) using Option.
+   *
    * @return Noone won, return none. 1 -> red has won. 2 -> yellow has won.*/
   def checkWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))]
 
   /** Check if four chips have the same colour
-   * 
+   *
    * @return */
   def checkFour(a1: Int, a2: Int, b1: Int, b2: Int, c1: Int, c2: Int, d1: Int, d2: Int): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))]
 
   /** Iterates through the grid and checks for all horizontal win possibilities.
-   * 
+   *
    * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won.*/
   def checkHorizontalWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))]
 

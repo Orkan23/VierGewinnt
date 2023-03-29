@@ -1,6 +1,6 @@
 /** EnemyStrategy Interface for VierGewinnt.
  *
- * @author Thu Ha Dinh & Orkan Yücetag */
+ * @author Victor Gänshirt & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.model.enemyStrategyComponent.enemyStrategyBaseImpl
 
 import de.htwg.se.VierGewinnt.model.enemyStrategyComponent.EnemyStrategyInterface
@@ -10,7 +10,7 @@ import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.Playg
 trait EnemyStrategy extends EnemyStrategyInterface:
 
   /** Insert a chip to the playground.
-   * 
+   *
    * @param playground Old playground.
    * @param col Column on where to place the chip.
    * @return New playground.

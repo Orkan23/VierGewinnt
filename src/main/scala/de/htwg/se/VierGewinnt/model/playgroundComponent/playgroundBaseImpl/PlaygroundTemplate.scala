@@ -1,6 +1,6 @@
 /** PlaygroundTemplate base implementation for VierGewinnt.
  *
- * @author Thu Ha Dinh & Orkan Yücetag */
+ * @author Victor Gänshirt & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
 
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
@@ -23,7 +23,7 @@ trait PlaygroundTemplate extends PlaygroundInterface {
     while (i >= 0 && grid.getCell(i, col).value != Chip.EMPTY) i -= 1
     i += 1
     i
-  
+
   /** Get the position one higher than the most-top chip. */
   override def getPosition(col: Int): Int =
     col match {
@@ -39,7 +39,7 @@ trait PlaygroundTemplate extends PlaygroundInterface {
   override def toString: String =
     val box = getStatus() + "\n" + colnames() + grid + border()
     if (error != "") error else box // print the col is full error if needed
-  
+
   /** Return the status of the playground Using hte Option-Monade
    * If noone was won yet, return next players turn string.
    * If someone one, return the string of who has won.
