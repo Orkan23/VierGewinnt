@@ -1,6 +1,6 @@
 /** Cell class for VierGewinnt.
  *
- * @author Thu Ha Dinh & Orkan Yücetag */
+ * @author Victor Gänshirt & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 
 /** Define a Cell to be used in the grid. */

@@ -1,8 +1,6 @@
 /** Graphical User Interface for VierGewinnt.
-  *
-  * @author
-  *   Victor Gänshirt & Orkan Yücetag
-  */
+ *
+ * @author Victor Gänshirt & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.aview
 
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface

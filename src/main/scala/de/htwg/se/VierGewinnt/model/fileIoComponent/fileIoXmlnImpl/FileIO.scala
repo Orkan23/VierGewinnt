@@ -1,6 +1,6 @@
 /** FileIO XML Implementation for VierGewinnt.
  *
- * @author Thu Ha Dinh & Orkan Yücetag */
+ * @author Victor Gänshirt & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.model.fileIoComponent.fileIoXmlnImpl
 
 import com.google.inject.Guice
@@ -41,7 +41,7 @@ class FileIO extends FileIOInterface {
 
       _grid match
         case Success(g) => grid = g
-        case Failure(e) => 
+        case Failure(e) =>
     }
 
     val pl1 = (player1.text.split("&")(0), if (player1.text.split("&")(1)) == "RED" then Chip.RED else Chip.YELLOW)

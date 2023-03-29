@@ -1,6 +1,6 @@
 /** Observable class for VierGewinnt.
  *
- * @author Thu Ha Dinh & Orkan Yücetag */
+ * @author Victor Gänshirt & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.util
 
 trait Observable {
