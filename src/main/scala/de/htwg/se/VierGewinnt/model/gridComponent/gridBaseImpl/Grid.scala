@@ -56,14 +56,11 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
 
   /** Check if the grid is full, return a boolean. */
   override def checkFull(): Boolean = { // if any of the top rows is not full, return false and stop from checking, if true, grid is completly full
-    var result = true
-    for (i <- 0 to size - 1) yield {
-      result match
-        case true =>
-          result = if (getCell(0, i).value.getValue == 0) false else true
-        case _ =>
-    }
-    result
+    val result = for {
+      i <- 0 until size
+      if getCell(0, i).value.getValue == 0
+    } yield false
+    result.isEmpty
   }
 
   /** Check if someone has won (4 Chips touch each other horizontally, vertically or diagonally) using Option.
