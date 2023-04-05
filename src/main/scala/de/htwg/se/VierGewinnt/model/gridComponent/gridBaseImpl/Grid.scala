@@ -108,62 +108,52 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
    *
    * @return (winner, (x0,y0),...,(x3,y4))
    *         winner: 0 -> Noone won. 1 -> red has won. 2 -> yellow has won. */
-  override def checkHorizontalWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] =
-    var result: Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
-    for (y <- 0 to (size - 4)) yield { // Height
-      for (x <- 0 to (size - 1)) yield { // Width
-        checkFour(x, y, x, y + 1, x, y + 2, x, y + 3) match {
-          case Some(v) => result = Some(v)
-          case None =>
-        }
-      }
-    }
-    result
+  override def checkHorizontalWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = {
+    val result = for {
+      y <- 0 until (size -4) //Width
+      x <- 0 until size // Height
+      win <- checkFour(x, y, x + 1, y, x + 2, y, x + 3, y)
+    } yield win
+    result.headOption
+  }
 
   /** Iterates through the grid and checks for all vertical win possibilities.
    *
    * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won. */
-  override def checkVerticalWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] =
-    var result: Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
-    for (x <- 0 to (size - 4)) yield { // Width
-      for (y <- 0 to (size - 1)) yield { // Height
-        checkFour(x, y, x + 1, y, x + 2, y, x + 3, y) match {
-          case Some(v) => result = Some(v)
-          case None =>
-        }
-      }
-    }
-    result
+  override def checkVerticalWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = {
+    val result = for {
+      x <- 0 to (size - 4) // Width
+      y <- 0 until size // Height
+      win <- checkFour(x, y, x + 1, y, x + 2, y, x + 3, y)
+    } yield win
+    result.headOption
+}
 
 
   /** Iterates through the grid and checks for all diagonal up right win possibilities.
    *
    * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won. */
-  override def checkDiagonalUpRightWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] =
-    var result: Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
-    for (y <- 0 to (size - 4)) yield { // Height
-      for (x <- 0 to (size - 4)) yield { // Width
-        checkFour(x, y, x + 1, y + 1, x + 2, y + 2, x + 3, y + 3) match
-          case Some(v) => result = Some(v)
-          case None =>
-      }
-    }
-    result
-
+  override def checkDiagonalUpRightWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = {
+    val result = for {
+      y <- 0 to (size - 4) // Height
+      x <- 0 to (size - 4) // Width
+      win <- checkFour(x, y, x + 1, y + 1, x + 2, y + 2, x + 3, y + 3)
+    } yield win
+    result.headOption
+  }
 
   /** Iterates through the grid and checks for all diagonal up left win possibilities.
    *
    * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won. */
-  override def checkDiagonalUpLeftWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] =
-    var result: Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
-    for (y <- 0 to (size - 4)) yield { // Height
-      for (x <- 3 to (size - 1)) yield { // Width
-        checkFour(x, y, x - 1, y + 1, x - 2, y + 2, x - 3, y + 3) match
-          case Some(v) => result = Some(v)
-          case None =>
-      }
-    }
-    result
+  override def checkDiagonalUpLeftWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = {
+    // Check for four cells in a diagonal up-left line
+    val result = for {
+      y <- 0 to (size - 4)
+      x <- 3 until size
+      win <- checkFour(x, y, x - 1, y + 1, x - 2, y + 2, x - 3, y + 3)
+    } yield win
+    result.headOption
+  }
 
 
   /** Set the size of the grid. */
