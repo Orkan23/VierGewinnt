@@ -1,5 +1,6 @@
-package lib
+package de.htwg.se.VierGewinnt.gui
 
+import de.htwg.se.VierGewinnt.core.ControllerInterface
 import de.htwg.se.VierGewinnt.util.Move
 import de.htwg.se.VierGewinnt.util.Observer
 

@@ -1,8 +1,9 @@
-package lib
+package de.htwg.se.VierGewinnt.tui
 
 import com.google.inject.Guice
 import de.htwg.se.VierGewinnt.VierGewinntModule
-import lib.controllerBaseImpl.{Controller, GameState, PlayState, PrepareState}
+import de.htwg.se.VierGewinnt.core.ControllerInterface
+import de.htwg.se.VierGewinnt.core.controllerBaseImpl.{Controller, GameState, PlayState, PrepareState}
 
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream

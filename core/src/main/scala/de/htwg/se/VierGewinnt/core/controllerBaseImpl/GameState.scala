@@ -1,7 +1,7 @@
 /** GameState class for VierGewinnt.
  *
  * @author Victor Gänshirt & Orkan Yücetag */
-package lib.controllerBaseImpl
+package de.htwg.se.VierGewinnt.core.controllerBaseImpl
 
 import de.htwg.se.VierGewinnt.util.State
 

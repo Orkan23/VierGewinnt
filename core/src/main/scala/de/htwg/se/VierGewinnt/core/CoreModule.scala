@@ -1,12 +1,11 @@
-package di
+package de.htwg.se.VierGewinnt.core
 
 import com.google.inject.AbstractModule
 import com.google.inject.name.Names
+import de.htwg.se.VierGewinnt.core.controllerBaseImpl.Controller
 import de.htwg.se.VierGewinnt.model.fileIoComponent.{FileIOInterface, fileIoJsonImpl}
 import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvP
-import lib.controllerBaseImpl.Controller
-import lib.ControllerInterface
 
 class CoreModule extends AbstractModule {
   override def configure(): Unit =

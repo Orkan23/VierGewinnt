@@ -1,8 +1,8 @@
-package service
+package de.htwg.se.VierGewinnt.tui
 
 import com.google.inject.Guice
-import di.CoreModule
-import lib.{ControllerInterface, TUI}
+import de.htwg.se.VierGewinnt.core.ControllerInterface
+import de.htwg.se.VierGewinnt.core.CoreModule
 
 object TuiService {
   @main def run(): Unit =
@@ -10,5 +10,4 @@ object TuiService {
     val controller = injector.getInstance(classOf[ControllerInterface])
 
     TUI(controller).run
-
 }

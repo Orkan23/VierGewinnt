@@ -1,7 +1,7 @@
 /** InsertChipCommand class for VierGewinnt.
  *
  * @author Victor Gänshirt & Orkan Yücetag */
-package lib.controllerBaseImpl
+package de.htwg.se.VierGewinnt.core.controllerBaseImpl
 
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
 import de.htwg.se.VierGewinnt.model.playgroundComponent.{PlaygroundInterface, playgroundBaseImpl}

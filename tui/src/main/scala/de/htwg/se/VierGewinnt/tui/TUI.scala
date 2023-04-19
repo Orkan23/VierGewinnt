@@ -1,8 +1,9 @@
 /** Text-based User Interface for VierGewinnt.
  *
  * @author Victor Gänshirt & Orkan Yücetag */
-package lib
+package de.htwg.se.VierGewinnt.tui
 
+import de.htwg.se.VierGewinnt.core.ControllerInterface
 import de.htwg.se.VierGewinnt.util.{Move, Observer}
 
 import scala.io.StdIn.readLine

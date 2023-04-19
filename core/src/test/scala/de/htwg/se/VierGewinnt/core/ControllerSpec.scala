@@ -1,14 +1,13 @@
-package lib
+package de.htwg.se.VierGewinnt.core
 
 import com.google.inject.Guice
 import de.htwg.se.VierGewinnt.VierGewinntModule
+import de.htwg.se.VierGewinnt.core.controllerBaseImpl.{PlayState, PrepareState, TieState, WinState}
 import de.htwg.se.VierGewinnt.model.*
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
 import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
 import de.htwg.se.VierGewinnt.util.{Move, Observer}
-import lib.ControllerInterface
-import lib.controllerBaseImpl.*
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 

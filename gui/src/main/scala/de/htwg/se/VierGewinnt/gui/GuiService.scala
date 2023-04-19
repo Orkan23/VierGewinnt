@@ -1,10 +1,8 @@
-package service
+package de.htwg.se.VierGewinnt.gui
 
 import com.google.inject.Guice
-import com.google.inject.Inject
-import com.google.inject.Injector
-import di.CoreModule
-import lib.{ControllerInterface, GUI}
+import de.htwg.se.VierGewinnt.core.ControllerInterface
+import de.htwg.se.VierGewinnt.core.CoreModule
 
 object GuiService {
   @main def run(): Unit =
