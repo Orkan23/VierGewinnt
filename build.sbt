@@ -39,7 +39,6 @@ lazy val util = project
     description := "Util for Vier Gewinnt",
     commonSettings
   )
-  .enablePlugins(JacocoCoverallsPlugin)
 
 lazy val gui = project
   .in(file("gui"))
@@ -50,7 +49,6 @@ lazy val gui = project
     libraryDependencies += "org.scalafx" %% "scalafx" % "20.0.0-R31"
   )
   .dependsOn(core)
-  .enablePlugins(JacocoCoverallsPlugin)
 
 lazy val tui = project
   .in(file("tui"))
@@ -60,7 +58,6 @@ lazy val tui = project
     commonSettings
   )
   .dependsOn(core)
-  .enablePlugins(JacocoCoverallsPlugin)
 
 lazy val core = project
   .in(file("core"))
@@ -70,7 +67,6 @@ lazy val core = project
     commonSettings
   )
   .dependsOn(model, persistence, util)
-  .enablePlugins(JacocoCoverallsPlugin)
 
 lazy val persistence = project
   .in(file("persistence"))
@@ -80,7 +76,6 @@ lazy val persistence = project
     commonSettings
   )
   .dependsOn(model)
-  .enablePlugins(JacocoCoverallsPlugin)
 
 lazy val model = project
   .in(file("model"))
@@ -89,7 +84,6 @@ lazy val model = project
     description := "Model for Vier Gewinnt",
     commonSettings
   )
-  .enablePlugins(JacocoCoverallsPlugin)
 
 lazy val root = project
   .in(file("."))
