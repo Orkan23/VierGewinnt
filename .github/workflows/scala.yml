@@ -19,9 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build Project and export Coverage to Coveralls
+      - name: Run tests and export Coverage to Coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        run: |
-          export CI_BRANCH="${GITHUB_REF#refs/heads/}"
-          sbt clean jacoco jacocoReport jacocoCoveralls
+        run: sbt clean test coverageAggregate coveralls

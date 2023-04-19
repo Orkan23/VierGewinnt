@@ -9,36 +9,13 @@ lazy val commonSettings = Seq(
   libraryDependencies += ("net.codingwell" %% "scala-guice" % "5.1.1").cross(CrossVersion.for3Use2_13),
   libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.1.0",
   libraryDependencies += ("com.typesafe.play" %% "play-json" % "2.10.0-RC7"),
-  jacocoCoverallsServiceName := "github-actions",
-  jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
-  jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
-  jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN"),
-  jacocoReportSettings := JacocoReportSettings(
-    "Jacoco Coverage Report",
-    None,
-    JacocoThresholds(),
-    Seq(
-      JacocoReportFormats.ScalaHTML,
-      JacocoReportFormats.XML
-    ),
-    "utf-8"
-  ),
-  jacocoExcludes := Seq(
-    "**/GUI.*",
-    "*de.htwg.se.VierGewinnt.view.gui.GUI*",
-    "**/GuiService.*",
-    "**/VG.sc",
-    "**/Worksheet.sc"
-  )
+  coverageEnabled := true
 )
+
 
 lazy val util = project
   .in(file("util"))
-  .settings(
-    name := "util",
-    description := "Util for Vier Gewinnt",
-    commonSettings
-  )
+  .settings(name := "util", description := "Util for Vier Gewinnt", commonSettings, coverageExcludedPackages := "<empty>;.*GUI.*;.*gui\\.*")
 
 lazy val gui = project
   .in(file("gui"))
@@ -46,17 +23,14 @@ lazy val gui = project
     name := "gui",
     description := "GUI for Vier Gewinnt",
     commonSettings,
-    libraryDependencies += "org.scalafx" %% "scalafx" % "20.0.0-R31"
+    libraryDependencies += "org.scalafx" %% "scalafx" % "20.0.0-R31",
+    coverageExcludedPackages := "<empty>;.*GUI.*;.*gui\\.*",
   )
   .dependsOn(core)
 
 lazy val tui = project
   .in(file("tui"))
-  .settings(
-    name := "tui",
-    description := "TUI for Vier Gewinnt",
-    commonSettings
-  )
+  .settings(name := "tui", description := "TUI for Vier Gewinnt", commonSettings)
   .dependsOn(core)
 
 lazy val core = project
@@ -64,7 +38,8 @@ lazy val core = project
   .settings(
     name := "core",
     description := "Core for Vier Gewinnt",
-    commonSettings
+    commonSettings,
+    coverageExcludedPackages := "<empty>;.*GUI.*;.*gui\\.*"
   )
   .dependsOn(model, persistence, util)
 
@@ -73,7 +48,8 @@ lazy val persistence = project
   .settings(
     name := "persistence",
     description := "Persistence for Vier Gewinnt",
-    commonSettings
+    commonSettings,
+    coverageExcludedPackages := "<empty>;.*GUI.*;.*gui\\.*"
   )
   .dependsOn(model)
 
@@ -82,14 +58,15 @@ lazy val model = project
   .settings(
     name := "model",
     description := "Model for Vier Gewinnt",
-    commonSettings
+    commonSettings,
+    coverageExcludedPackages := "<empty>;.*GUI.*;.*gui\\.*"
   )
 
 lazy val root = project
   .in(file("."))
   .settings(
     name := "VierGewinnt",
-    commonSettings
+    commonSettings,
+    coverageExcludedPackages := "<empty>;.*GUI.*;.*gui\\.*"
   )
-  .enablePlugins(JacocoCoverallsPlugin)
   .aggregate(gui, tui, core, util, model, persistence)
