@@ -8,14 +8,24 @@ lazy val commonSettings = Seq(
   libraryDependencies += "com.google.inject" % "guice" % "5.1.0",
   libraryDependencies += ("net.codingwell" %% "scala-guice" % "5.1.1").cross(CrossVersion.for3Use2_13),
   libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.1.0",
-  libraryDependencies += ("com.typesafe.play" %% "play-json" % "2.9.2").cross(CrossVersion.for3Use2_13),
+  libraryDependencies += ("com.typesafe.play" %% "play-json" % "2.9.2"),
   jacocoCoverallsServiceName := "github-actions",
   jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
   jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
   jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN"),
+  jacocoReportSettings := JacocoReportSettings(
+    "Jacoco Coverage Report",
+    None,
+    JacocoThresholds(),
+    Seq(
+      JacocoReportFormats.ScalaHTML,
+      JacocoReportFormats.XML
+    ),
+    "utf-8"
+  ),
   jacocoExcludes := Seq(
     "**/GUI.*",
-    "de.htwg.se.VierGewinnt.view.gui.GUI",
+    "*de.htwg.se.VierGewinnt.view.gui.GUI*",
     "**/GuiService.*"
   )
 )
