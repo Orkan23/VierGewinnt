@@ -3,7 +3,6 @@
  * @author Victor Gänshirt & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.core.controllerBaseImpl
 
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
 import de.htwg.se.VierGewinnt.model.playgroundComponent.{PlaygroundInterface, playgroundBaseImpl}
 import de.htwg.se.VierGewinnt.util.{Command, Move}
 

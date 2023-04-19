@@ -1,23 +1,25 @@
 package de.htwg.se.VierGewinnt.core
 
 import com.google.inject.Guice
-import de.htwg.se.VierGewinnt.VierGewinntModule
-import de.htwg.se.VierGewinnt.core.controllerBaseImpl.{PlayState, PrepareState, TieState, WinState}
+import de.htwg.se.VierGewinnt.core.controllerBaseImpl.PlayState
+import de.htwg.se.VierGewinnt.core.controllerBaseImpl.PrepareState
+import de.htwg.se.VierGewinnt.core.controllerBaseImpl.TieState
+import de.htwg.se.VierGewinnt.core.controllerBaseImpl.WinState
 import de.htwg.se.VierGewinnt.model.*
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
-import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Cell
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
 import de.htwg.se.VierGewinnt.util.{Move, Observer}
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
-
-import scala.io.AnsiColor.{BLUE_B, RED_B, YELLOW_B}
+import scala.io.AnsiColor.BLUE_B
+import scala.io.AnsiColor.RED_B
+import scala.io.AnsiColor.YELLOW_B
 import scala.io.Source
 
 class ControllerSpec extends AnyWordSpec {
   "A controller" when {
     "observed by an Observer" should {
-      val injector = Guice.createInjector(new VierGewinntModule)
+      val injector = Guice.createInjector(new CoreModule)
       val controller = injector.getInstance(classOf[ControllerInterface])
       val observer = new Observer {
         var updated: Boolean = false
@@ -47,21 +49,20 @@ class ControllerSpec extends AnyWordSpec {
         controller.doAndPublish(controller.insChip, Move(1))
         controller.doAndPublish(controller.insChip, Move(1))
         controller.checkFull(controller.playground)
-        controller.gamestate.state should be (TieState())
+        controller.gamestate.state should be(TieState())
       }
 
       "setup a PVE Game" in {
         controller.setupGame(1, 7)
-        controller.playground.player(1).getName() should be ("Bot 1")
-        controller.gamestate.state should be (PlayState())
+        controller.playground.player(1).getName() should be("Bot 1")
+        controller.gamestate.state should be(PlayState())
       }
 
       "setup a PVP Game" in {
         controller.setupGame(0, 7)
-        controller.playground.player(1).getName() should be ("Player 2")
-        controller.gamestate.state should be (PlayState())
+        controller.playground.player(1).getName() should be("Player 2")
+        controller.gamestate.state should be(PlayState())
       }
-
 
       "check if there is a winner" in {
         controller.doAndPublish(controller.insChip, Move(0))
@@ -72,28 +73,28 @@ class ControllerSpec extends AnyWordSpec {
         controller.doAndPublish(controller.insChip, Move(1))
         controller.doAndPublish(controller.insChip, Move(0))
         controller.checkWinner(controller.playground)
-        controller.gamestate.state should be (WinState())
+        controller.gamestate.state should be(WinState())
       }
 
       "get the Chip Color" in {
-        controller.getChipColor(0,0) should be (BLUE_B)
+        controller.getChipColor(0, 0) should be(BLUE_B)
       }
 
       "get the playground state" in {
         controller.toString
-        controller.playgroundState should be ("Player Yellow has won the game!")
+        controller.playgroundState should be("Player Yellow has won the game!")
       }
 
       "undo and redo a move" in {
-        val injector = Guice.createInjector(new VierGewinntModule)
+        val injector = Guice.createInjector(new CoreModule)
         val controller2 = injector.getInstance(classOf[ControllerInterface])
         var field = controller2.playground
         controller2.doAndPublish(controller2.insChip, Move(0))
         controller2.playground.grid.getCell(6, 0) should be(Cell(Chip.YELLOW))
         controller2.doAndPublish(controller2.undo);
-        controller2.playground.grid.getCell(6, 0) should be(gridBaseImpl.Cell(Chip.EMPTY))
+        controller2.playground.grid.getCell(6, 0) should be(Cell(Chip.EMPTY))
         controller2.doAndPublish(controller2.redo);
-        controller2.playground.grid.getCell(6, 0) should be(gridBaseImpl.Cell(Chip.YELLOW))
+        controller2.playground.grid.getCell(6, 0) should be(Cell(Chip.YELLOW))
       }
       "return grid size" in {
         controller.gridSize should be(7)
@@ -118,7 +119,7 @@ class ControllerSpec extends AnyWordSpec {
       }
 
       "load a game" in {
-        controller.setupGame(0,7)
+        controller.setupGame(0, 7)
         val savedBeforeChange = controller.playground
         controller.save
         controller.insChip(Move(0))

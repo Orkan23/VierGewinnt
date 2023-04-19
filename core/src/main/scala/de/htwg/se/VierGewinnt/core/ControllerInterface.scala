@@ -3,8 +3,7 @@ package de.htwg.se.VierGewinnt.core
 import de.htwg.se.VierGewinnt.core.controllerBaseImpl.GameState
 import de.htwg.se.VierGewinnt.model.playerComponent.PlayerInterface
 import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
-import de.htwg.se.VierGewinnt.util.Move
-import de.htwg.se.VierGewinnt.util.Observable
+import de.htwg.se.VierGewinnt.util.{Move, Observable}
 
 /** Interface for the controller. Extends the Observable class to be compatible with the model-view-controller architecture and communicate
   * vith the view.
