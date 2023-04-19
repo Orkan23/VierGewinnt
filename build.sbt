@@ -26,7 +26,9 @@ lazy val commonSettings = Seq(
   jacocoExcludes := Seq(
     "**/GUI.*",
     "*de.htwg.se.VierGewinnt.view.gui.GUI*",
-    "**/GuiService.*"
+    "**/GuiService.*",
+    "**/VG.sc",
+    "**/Worksheet.sc"
   )
 )
 
