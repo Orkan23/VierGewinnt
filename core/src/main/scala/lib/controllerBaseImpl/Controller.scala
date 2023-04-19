@@ -2,12 +2,11 @@
  *
  * @author Victor Gänshirt & Orkan Yücetag */
 
-package de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl
+package lib.controllerBaseImpl
 
 import com.google.inject.name.{Named, Names}
 import com.google.inject.{Guice, Inject, Key}
 import de.htwg.se.VierGewinnt.VierGewinntModule
-import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
 import de.htwg.se.VierGewinnt.model.fileIoComponent.FileIOInterface
 import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Chip, Grid}
@@ -16,6 +15,7 @@ import de.htwg.se.VierGewinnt.model.playerComponent.{PlayerInterface, playerBase
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.{PlaygroundPvE, PlaygroundPvP}
 import de.htwg.se.VierGewinnt.model.playgroundComponent.{PlaygroundInterface, playgroundBaseImpl}
 import de.htwg.se.VierGewinnt.util.{Command, Move, Observable, UndoManager}
+import lib.ControllerInterface
 
 /** Controller base implementation.
  *

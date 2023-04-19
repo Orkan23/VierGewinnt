@@ -1,9 +1,8 @@
-package de.htwg.se.VierGewinnt.aview
+package lib
 
 import com.google.inject.Guice
 import de.htwg.se.VierGewinnt.VierGewinntModule
-import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
-import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.{Controller, GameState, PlayState, PrepareState}
+import lib.controllerBaseImpl.{Controller, GameState, PlayState, PrepareState}
 
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
@@ -12,6 +11,9 @@ import java.io.PrintStream
 import java.io.StringReader
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
+
+import java.io.*
+import scala.Console.{withIn, withOut}
 
 class TUISpec extends AnyWordSpec {
   "TUI of VierGewinnt" should {
@@ -23,8 +25,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader("\nq"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.run
         }
       }
@@ -39,8 +41,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader("\n0\n7\nredo\nundo\nk\n4\nq"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.run
         }
       }
@@ -55,8 +57,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader("\n2\n7\nq"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.run
         }
       }
@@ -70,8 +72,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader("\n1\nq\n"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.getInputAndPrintLoop()
         }
       }
@@ -82,8 +84,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader("\nrestart\nq\nq"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.getInputAndPrintLoop()
         }
       }
@@ -95,8 +97,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader("\na\n \n+\n\nq\n"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.getInputAndPrintLoop()
         }
       }
@@ -106,8 +108,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader("0\n0\n8\n-1\nq\n"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.getInputAndPrintLoop()
         }
       }
@@ -118,8 +120,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader(""))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.update
         }
       }
@@ -131,8 +133,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader("q"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.prepareGameType()
         }
       }
@@ -145,8 +147,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader("0\n7"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.prepareGameType()
         }
       }
@@ -158,8 +160,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader("2\nq"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.prepareGameType()
         }
       }
@@ -171,8 +173,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader(" \nq"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.prepareGameType()
         }
       }
@@ -185,8 +187,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader(" \n2\nq"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.prepareGameType()
         }
       }
@@ -200,8 +202,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader(" \n2\nq"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.prepareGameType()
         }
       }
@@ -215,8 +217,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader("save\nload"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.prepareGameType()
         }
       }
@@ -229,8 +231,8 @@ class TUISpec extends AnyWordSpec {
       val in = new BufferedReader(new StringReader("0\n0\nsave\nload\nq\n"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
+      withOut(printer) {
+        withIn(in) {
           tui.getInputAndPrintLoop()
         }
       }

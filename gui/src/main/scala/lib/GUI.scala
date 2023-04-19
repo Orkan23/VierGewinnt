@@ -1,13 +1,8 @@
-/** Graphical User Interface for VierGewinnt.
- *
- * @author Victor Gänshirt & Orkan Yücetag */
-package de.htwg.se.VierGewinnt.aview
+package lib
 
-import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
 import de.htwg.se.VierGewinnt.util.Move
 import de.htwg.se.VierGewinnt.util.Observer
-import java.util.Optional
-import javafx.animation
+
 import scala.io.AnsiColor.BLUE_B
 import scala.io.AnsiColor.RED_B
 import scala.io.AnsiColor.YELLOW_B
@@ -17,8 +12,6 @@ import scalafx.application.JFXApp3
 import scalafx.application.Platform
 import scalafx.application.Platform.*
 import scalafx.event.ActionEvent
-import scalafx.scene.control.Button
-import scalafx.scene.control.Label
 import scalafx.scene.control.Menu
 import scalafx.scene.control.MenuBar
 import scalafx.scene.control.MenuItem

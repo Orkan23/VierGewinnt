@@ -1,19 +1,18 @@
-package de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl
+package lib
 
 import com.google.inject.Guice
 import de.htwg.se.VierGewinnt.VierGewinntModule
-import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
-import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
-import de.htwg.se.VierGewinnt.model.{gridComponent, *}
+import de.htwg.se.VierGewinnt.model.*
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
 import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
 import de.htwg.se.VierGewinnt.util.{Move, Observer}
-
-import scala.io.AnsiColor.{BLUE_B, RED_B, YELLOW_B}
+import lib.ControllerInterface
+import lib.controllerBaseImpl.*
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
+import scala.io.AnsiColor.{BLUE_B, RED_B, YELLOW_B}
 import scala.io.Source
 
 class ControllerSpec extends AnyWordSpec {

@@ -1,9 +1,10 @@
-package de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl
+package lib
 
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Chip, Grid}
 import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
 import de.htwg.se.VierGewinnt.util.Move
+import lib.controllerBaseImpl.InsertChipCommand
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
