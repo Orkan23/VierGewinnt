@@ -1,0 +1,7 @@
+ignore:
+  - "gui/**/*"
+coverage:
+  status:
+    patch:
+      default:
+        target: 80%
