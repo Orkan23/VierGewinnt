@@ -1,5 +1,6 @@
 ignore:
   - "gui/**/*"
+  - "**/TuiService.scala"
 coverage:
   status:
     patch:
