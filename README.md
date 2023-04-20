@@ -1,5 +1,6 @@
 [![Scala CI](https://github.com/Orkan23/VierGewinnt/actions/workflows/scala.yml/badge.svg?branch=master)](https://github.com/Orkan23/VierGewinnt/actions/workflows/scala.yml)
-[![codecov](https://codecov.io/gh/Orkan23/VierGewinnt/branch/master/graph/badge.svg?token=47E3XKJDTH)](https://codecov.io/gh/Orkan23/VierGewinnt)# VierGewinnt
+[![codecov](https://codecov.io/gh/Orkan23/VierGewinnt/branch/master/graph/badge.svg?token=47E3XKJDTH)](https://codecov.io/gh/Orkan23/VierGewinnt)
+# VierGewinnt
 The game VierGewinnt (Connect Four) is a software project for the course software engineering and software architecture of the University of Applied Sciences (HTWG Konstanz) developed by Orkan Yücetag and Victor Gänshirt
 
 # How to play (GUI)
