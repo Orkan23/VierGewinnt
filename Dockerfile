@@ -4,7 +4,8 @@ RUN apt-get update && \
     apt-get install -y libxrender1 libxtst6 libxi6 libgl1-mesa-glx libgtk-3-0
 
 WORKDIR /VierGewinnt
+
 ADD . /VierGewinnt
 
-RUN chmod +x /VierGewinnt/view.sh
-ENTRYPOINT ["/VierGewinnt/view.sh"]
+CMD sbt run
+
