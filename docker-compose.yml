@@ -1,12 +1,13 @@
 version: '3.7'
 
 services:
+  # here all the services are needed
   Persistence:
     build:
       context: ./Persistence
       dockerfile: Dockerfile
     ports:
-      - 8080:80
+      - "80:80"
     stdin_open: true
     container_name: persistence_service
   shutthebox:
