@@ -10,13 +10,3 @@ services:
       - "80:80"
     stdin_open: true
     container_name: persistence_service
-  shutthebox:
-      build:
-        context: ./ShutTheBox
-        dockerfile: Dockerfile
-      stdin_open: true
-      container_name: root_service
-      depends_on:
-        - field
-      environment:
-        - DISPLAY=host.docker.internal:0
