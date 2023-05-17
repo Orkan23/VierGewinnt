@@ -1,21 +1,14 @@
-package de.htwg.se.VierGewinnt.core
+package de.htwg.se.VierGewinnt.model
 
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Cell
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Grid
 import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
-import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.BotPlayer
-import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.HumanPlayer
-import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvE
-import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvP
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Cell, Chip, Grid}
+import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.{BotPlayer, HumanPlayer}
 import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
-import play.api.libs.json.JsNumber
-import play.api.libs.json.JsString
-import play.api.libs.json.JsValue
-import play.api.libs.json.Json
+import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.{PlaygroundPvE, PlaygroundPvP}
+import play.api.libs.json.{JsNumber, JsString, JsValue, Json}
+
 import scala.io.Source
-import scala.util.Failure
-import scala.util.Success
+import scala.util.{Failure, Success}
 
 object Util {
 
@@ -77,16 +70,4 @@ object Util {
   def getNameAndChip(playerName: String): (String, Chip) =
     (playerName.split("&")(0), if (playerName.split("&")(1)) == "RED" then Chip.RED else Chip.YELLOW)
 
-  def parseWinnerChips(jsonString: String): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = 
-    val json = Json.parse(jsonString)
-    val winnerChipsOpt = for {
-      winner <- (json \ "winner").asOpt[Int]
-      chip1 <- (json \ "chip1").asOpt[(Int, Int)]
-      chip2 <- (json \ "chip2").asOpt[(Int, Int)]
-      chip3 <- (json \ "chip3").asOpt[(Int, Int)]
-      chip4 <- (json \ "chip4").asOpt[(Int, Int)]
-    } yield (winner, chip1, chip2, chip3, chip4)
-
-    winnerChipsOpt
-  
 }

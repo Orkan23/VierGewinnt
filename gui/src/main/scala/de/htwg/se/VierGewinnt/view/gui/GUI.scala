@@ -1,12 +1,16 @@
 package de.htwg.se.VierGewinnt.view.gui
 
-import de.htwg.se.VierGewinnt.core.ControllerInterface
-import de.htwg.se.VierGewinnt.util.{Move, Observer}
-
+import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.unmarshalling.Unmarshal
+import com.google.inject.Inject
+import scala.concurrent.Await
+import scala.concurrent.Future
 import scala.io.AnsiColor.BLUE_B
 import scala.io.AnsiColor.RED_B
 import scala.io.AnsiColor.YELLOW_B
 import scala.language.postfixOps
+import scala.util.Failure
+import scala.util.Success
 import scalafx.animation.*
 import scalafx.application.JFXApp3
 import scalafx.application.Platform
@@ -33,22 +37,25 @@ import scalafx.Includes.at
   * @param controller
   *   Controller as parameter, which controls this GUI.
   */
-case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
-  controller.add(this)
+class GUI @Inject() (restController: GuiRestController) extends JFXApp3:
+  val coreService = "http://localhost:8080/"
+
   var chips: Vector[Vector[Circle]] = emptyChips()
   var chipGrid: GridPane = emptyGrid()
-  var playgroundstatus = new Menu(controller.playgroundState)
-  var statestatus = new Menu(controller.printState)
+  var playgroundstatus = new Menu(restController.getPlaygroundState)
+  var statestatus = new Menu(restController.getGameState)
+
+  restController.addToObserver
 
   /** Updates the GUI with chips and grid from the controller. */
-  override def update: Unit =
+  def update: Unit =
     checkChipSize()
-    controller.winnerChips match {
+    restController.getWinnerChips match { // restController.getWinnerChips
       case Some(v) => win(v._2, v._3, v._4, v._5)
       case None =>
         chips.zipWithIndex.map { case (subList, i) =>
           subList.zipWithIndex.map { case (element, j) =>
-            controller.getChipColor(j, i) match {
+            restController.getChipColor(j, i) match { // restController.getChipColor(i, j)
               case BLUE_B => // Empty
                 element.fill = Color.Gray
               case RED_B => // Red
@@ -61,7 +68,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
     }
 
   def win(a: (Int, Int), b: (Int, Int), c: (Int, Int), d: (Int, Int)): Unit =
-    val tmpCol = if controller.getChipColor(a._1, a._2) == YELLOW_B then Color.Yellow else Color.Red
+    val tmpCol = if restController.getChipColor(a._1, a._2) == YELLOW_B then Color.Yellow else Color.Red
     val t = Timeline(
       Seq(
         at(0.0 s) {
@@ -151,7 +158,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
                     while (result.get.toInt < 4)
                       result = dialog.showAndWait()
 
-                    controller.setupGame(0, result.get.toInt)
+                    restController.setupGame(0, result.get.toInt)
                     chipGrid = emptyGrid() // Update Grid to new Size
                     start()
                   }
@@ -167,17 +174,17 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
                     while (result.get.toInt < 4)
                       result = dialog.showAndWait()
 
-                    controller.setupGame(1, result.get.toInt)
+                    restController.setupGame(1, result.get.toInt)
                     chipGrid = emptyGrid() // Update Grid to new Size
                     start()
                   }
                 },
                 new MenuItem("Save") {
-                  onAction = (event: ActionEvent) => controller.save
+                  onAction = (event: ActionEvent) => restController.save
                 },
                 new MenuItem("Load") {
                   onAction = (event: ActionEvent) =>
-                    controller.load
+                    restController.load
                     start()
                 }
               )
@@ -185,10 +192,10 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
             new Menu("Control") {
               items = List(
                 new MenuItem("Undo") {
-                  onAction = (event: ActionEvent) => controller.doAndPublish(controller.undo)
+                  onAction = (event: ActionEvent) => restController.doAndPublishUndo
                 },
                 new MenuItem("Redo") {
-                  onAction = (event: ActionEvent) => controller.doAndPublish(controller.redo)
+                  onAction = (event: ActionEvent) => restController.doAndPublishRedo
                 }
               )
             },
@@ -208,21 +215,21 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
         content = new VBox() {
           children = List(menu, chipGrid)
         }
-    playgroundstatus.setText(controller.playgroundState)
-    statestatus.setText(controller.printState)
+    playgroundstatus.setText(restController.getPlaygroundState)
+    statestatus.setText(restController.getGameState)
 
   /** Places empty gray circles with the size 50 into a vector.
     *
     * @return
     *   Returns a new Matrix with circles.
     */
-  def emptyChips(): Vector[Vector[Circle]] = Vector.fill(controller.gridSize, controller.gridSize)(Circle(50, fill = Color.Gray))
+  def emptyChips(): Vector[Vector[Circle]] = Vector.fill(restController.getGridSize, restController.getGridSize)(Circle(50, fill = Color.Gray))
 
   /** Checks if the chips size equals the controller gridsize to prevent having a ScalaFX Threading error. If the chips size does not equal the
     * controller size, update the chips and the grid with an empty one.
     */
   def checkChipSize(): Unit =
-    if (!chips.length.equals(controller.gridSize)) {
+    if (!chips.length.equals(restController.getGridSize)) {
       chips = emptyChips()
       chipGrid = emptyGrid()
     }
@@ -237,9 +244,9 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
       for ((subList, i) <- chips.zipWithIndex) {
         for ((element, j) <- subList.zipWithIndex) {
           element.onMouseClicked = (event: MouseEvent) =>
-            controller.doAndPublish(controller.insChip, Move(i));
-            playgroundstatus.text = controller.playgroundState;
-            statestatus.text = controller.printState
+            restController.doAndPublishInsertChip(i)
+            playgroundstatus.text = restController.getPlaygroundState;
+            statestatus.text = restController.getGameState
           add(element, i, j)
         }
       }
