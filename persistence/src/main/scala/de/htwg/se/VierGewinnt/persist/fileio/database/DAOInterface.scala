@@ -4,7 +4,11 @@ import scala.util.Try
 
 trait DAOInterface[T] {
 
-  def save(playground: PlaygroundInterface): Try[Unit]
+  def create(): Unit
 
-  def load(playgroundInterface: PlaygroundInterface): Try[Unit]
+  def read(): String
+
+  def update(input: String): Unit
+
+  def delete(): Unit
 }
