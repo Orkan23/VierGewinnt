@@ -9,7 +9,11 @@ lazy val commonSettings = Seq(
   libraryDependencies += ("net.codingwell" %% "scala-guice" % "5.1.1").cross(CrossVersion.for3Use2_13),
   libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.1.0",
   libraryDependencies += ("com.typesafe.play" %% "play-json" % "2.10.0-RC7"),
-  coverageEnabled := true
+  libraryDependencies ++= Seq(
+    "com.typesafe.slick" %% "slick" % "3.0.0",
+    "org.slf4j" % "slf4j-nop" % "1.6.4"
+  ),
+    coverageEnabled := true
 )
 
 
