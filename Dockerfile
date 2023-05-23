@@ -8,3 +8,5 @@ ADD . /VierGewinnt
 
 RUN chmod +x /VierGewinnt/view.sh
 ENTRYPOINT ["/VierGewinnt/view.sh"]
+
+

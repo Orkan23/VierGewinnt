@@ -3,7 +3,8 @@
  * @author Victor Gänshirt & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.core.controllerBaseImpl
 
-import de.htwg.se.VierGewinnt.model.playgroundComponent.{PlaygroundInterface, playgroundBaseImpl}
+
+import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
 import de.htwg.se.VierGewinnt.util.{Command, Move}
 
 /** InsertChipCommand class to work with the Command-Pattern and UndoManager.

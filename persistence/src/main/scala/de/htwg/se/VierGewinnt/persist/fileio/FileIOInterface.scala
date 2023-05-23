@@ -1,17 +1,18 @@
 package de.htwg.se.VierGewinnt.persist.fileio
 
-import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
+import scala.util.Try
+
 
 /** Interface for FileIO, to save and load the state of a game. */
 trait FileIOInterface {
 
   /** Load the game from a file and return the playground. */
-  def load: PlaygroundInterface
+  def load: Try[String]
 
   /** Save the game to a file.
     *
     * @param playground
     *   The playground to save.
     */
-  def save(playground: PlaygroundInterface): Unit
+  def save(playground: String): Unit
 }

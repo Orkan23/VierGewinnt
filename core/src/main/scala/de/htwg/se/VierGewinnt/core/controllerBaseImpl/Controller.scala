@@ -6,15 +6,44 @@
 
 package de.htwg.se.VierGewinnt.core.controllerBaseImpl
 
-import com.google.inject.name.{Named, Names}
-import com.google.inject.{Guice, Inject, Key}
-import de.htwg.se.VierGewinnt.core.{ControllerInterface, CoreModule}
-import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
-import de.htwg.se.VierGewinnt.model.playerComponent.{PlayerInterface, playerBaseImpl}
-import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.{PlaygroundPvE, PlaygroundPvP}
-import de.htwg.se.VierGewinnt.model.playgroundComponent.{PlaygroundInterface, playgroundBaseImpl}
-import de.htwg.se.VierGewinnt.persist.fileio.FileIOInterface
-import de.htwg.se.VierGewinnt.util.{Command, Move, Observable, UndoManager}
+import akka.actor.typed.scaladsl.AskPattern.*
+import akka.actor.typed.scaladsl.Behaviors
+import akka.actor.typed.ActorSystem
+import akka.actor.TypedActor.context
+import akka.http.scaladsl.model.HttpMethods
+import akka.http.scaladsl.model.HttpRequest
+import akka.http.scaladsl.model.HttpResponse
+import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.unmarshalling.FromEntityUnmarshaller
+import akka.http.scaladsl.unmarshalling.Unmarshal
+import akka.http.scaladsl.unmarshalling.Unmarshaller
+import akka.http.scaladsl.Http
+import com.google.inject.name.Named
+import com.google.inject.name.Names
+import com.google.inject.Guice
+import com.google.inject.Inject
+import com.google.inject.Key
+import concurrent.duration.Duration
+import concurrent.duration.DurationInt
+import de.htwg.se.VierGewinnt.core.service.CoreRestController
+import de.htwg.se.VierGewinnt.core.service.CoreRestService.getClass
+import de.htwg.se.VierGewinnt.core.service.PlaygroundProvider
+import de.htwg.se.VierGewinnt.core.ControllerInterface
+import de.htwg.se.VierGewinnt.core.CoreModule
+import de.htwg.se.VierGewinnt.core.Util
+import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvE
+import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvP
+import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
+import de.htwg.se.VierGewinnt.util.Command
+import de.htwg.se.VierGewinnt.util.Move
+import de.htwg.se.VierGewinnt.util.UndoManager
+import org.slf4j.LoggerFactory
+import play.api.libs.json.Json
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContextExecutor
+import scala.concurrent.Future
+import scala.util.Failure
+import scala.util.Success
 
 /** Controller base implementation.
   *
@@ -23,28 +52,33 @@ import de.htwg.se.VierGewinnt.util.{Command, Move, Observable, UndoManager}
   * @param gameType
   *   Sets the default gametype with inject.
   */
-class Controller @Inject() (@Named("DefaultPlayground") var playground: PlaygroundInterface, @Named("DefaultGameType") var gameType: Int)
-    extends Observable
-    with ControllerInterface:
-
-  /** Load the module for dependency injection. */
-  val injector = Guice.createInjector(new CoreModule)
-
-  /** Get the fileIo Implementation from the chosen module. */
-  val fileIo = injector.getInstance(classOf[FileIOInterface])
+class Controller @Inject() (
+    @Named("DefaultPlayground") var playground: PlaygroundInterface,
+    @Named("DefaultGameType") var gameType: Int,
+    restController: CoreRestController
+) extends ControllerInterface:
+  val fileIOServer = "http://0.0.0.0:8081/fileio"
+  val modelServer = "http://0.0.0.0:8082"
+  private val logger = LoggerFactory.getLogger(getClass)
 
   /** Returns the size of the grid withing playground. */
-  override def gridSize: Int = playground.size
+  override def gridSize: Int =
+    playground.size
 
   /** Loads the previously saved playground from a file. */
   override def load: Unit =
-    playground = fileIo.load
-    notifyObservers
+    val playgroundFuture: Future[String] = restController.sendGetRequest(fileIOServer + "/json/load")
+    val playgroundResult: String = Await.result(playgroundFuture, Duration.Inf)
+    logger.info(playgroundResult)
+    playground = Util.jsonToPlayground(playgroundResult)
+    restController.notifyObservers
 
   /** Saves the current playground to a file. */
   override def save: Unit =
-    fileIo.save(playground)
-    notifyObservers
+    val playgroundFuture: Future[String] = restController.sendPostRequest(fileIOServer + "/json/save", Util.toJsonString(playground))
+    val playgroundResult: String = Await.result(playgroundFuture, Duration.Inf)
+    logger.info(playgroundResult)
+    restController.notifyObservers
 
   /** Sets up a new game and switches the GameState to PlayState().
     *
@@ -61,7 +95,7 @@ class Controller @Inject() (@Named("DefaultPlayground") var playground: Playgrou
         playground = new PlaygroundPvE(size)
     gamestate.changeState(PlayState())
     winnerChips = None
-    notifyObservers
+    restController.notifyObservers
 
   /** Variable for an instance of the UndoManager. */
   val undoManager = new UndoManager[PlaygroundInterface]
@@ -77,7 +111,7 @@ class Controller @Inject() (@Named("DefaultPlayground") var playground: Playgrou
     gameNotDone match
       case true =>
         playground = doThis(move)
-        notifyObservers
+        restController.notifyObservers
       case _ =>
 
   /** Do a given function and save it into the UndoManager.
@@ -89,13 +123,13 @@ class Controller @Inject() (@Named("DefaultPlayground") var playground: Playgrou
     gameNotDone match
       case true =>
         playground = doThis
-        notifyObservers
+        restController.notifyObservers
       case _ =>
 
   /** Reset the GameState to PrepareState() to restart the game. */
   override def restartGame: Unit =
     gamestate.changeState(PrepareState())
-    notifyObservers
+    restController.notifyObservers
 
   /** Checks if the game is still in preparing phase. */
   override def isPreparing: Boolean =

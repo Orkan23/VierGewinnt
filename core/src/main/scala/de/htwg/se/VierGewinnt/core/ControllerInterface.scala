@@ -8,7 +8,7 @@ import de.htwg.se.VierGewinnt.util.{Move, Observable}
 /** Interface for the controller. Extends the Observable class to be compatible with the model-view-controller architecture and communicate
   * vith the view.
   */
-trait ControllerInterface() extends Observable:
+trait ControllerInterface:
   /** Returns the size of the grid withing playground. */
   def gridSize: Int
 

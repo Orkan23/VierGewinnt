@@ -1,0 +1,37 @@
+services:
+  gui:
+    image: gui:0.2.0-SNAPSHOT
+    container_name: gui
+    build: .
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    network_mode: host
+    profiles:
+      - donotstart
+  core:
+    image: core:0.2.0-SNAPSHOT
+    ports:
+      - "8080:8080"
+    container_name: core
+    depends_on:
+      - model
+      - util
+    profiles:
+      - donotstart
+  persistence:
+    image: persistence:0.2.0-SNAPSHOT
+    ports:
+      - "8081:8081"
+    container_name: persistence
+  model:
+    image: model:0.2.0-SNAPSHOT
+    ports:
+      - "8082:8082"
+    container_name: model
+  util:
+    image: util:0.2.0-SNAPSHOT
+    ports:
+      - "8083:8083"
+    container_name: util
