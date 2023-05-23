@@ -25,8 +25,8 @@ lazy val commonSettings = Seq(
     "com.typesafe.akka" %% "akka-http-core" % akkaHttp,
     "ch.qos.logback" % "logback-classic" % "1.4.6",
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
-"com.typesafe.slick" %% "slick" % "3.0.0",
-"org.slf4j" % "slf4j-nop" % "1.6.4"
+    ("com.typesafe.slick" %% "slick" % "3.5.0-M3").cross(CrossVersion.for3Use2_13),
+    "org.slf4j" % "slf4j-nop" % "1.6.4"
   ),
   dockerBaseImage := "sbtscala/scala-sbt:eclipse-temurin-jammy-17.0.5_8_1.8.3_3.2.2",
   Docker / daemonUserUid := None,

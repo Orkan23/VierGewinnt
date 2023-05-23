@@ -1,5 +1,3 @@
-import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
-import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundTemplate
 import slick.jdbc.JdbcBackend.Database
 
 import scala.util.Try
