@@ -7,25 +7,24 @@ import de.htwg.se.VierGewinnt.persist.fileio.service.PersistenceRestService.getC
 import org.slf4j.LoggerFactory
 import play.api.libs.json.JsValue
 import play.api.libs.json.Json
-
 import scala.concurrent.duration.Duration
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.language.postfixOps
 import scala.util.Failure
 import scala.util.Success
-import scala.Console.{RED_B, YELLOW_B}
+import scala.Console.RED_B
+import scala.Console.YELLOW_B
 import slick.jdbc.meta.MTable
 import slick.jdbc.JdbcBackend.Database
 import slick.jdbc.PostgresProfile.api.*
 import slick.lifted.TableQuery
 
-import scala.language.postfixOps
+object DAOSlickPlayer extends DAOInterface {
 
-class DAOSlickPlayer extends DAOInterface {
-
-  val connectIP = sys.env.getOrElse("POSTGRES_IP", "localhost")
-  val connectPort = sys.env.getOrElse("POSTGRES_PORT", 5436).toString.toInt
+  val connectIP = sys.env.getOrElse("POSTGRES_IP", "0.0.0.0")
+  val connectPort = sys.env.getOrElse("POSTGRES_PORT", 5432).toString.toInt
   val database_user = sys.env.getOrElse("POSTGRES_USER", "postgres")
   val database_pw = sys.env.getOrElse("POSTGRES_PASSWORD", "postgres")
   val database_name = sys.env.getOrElse("POSTGRES_DB", "viergewinnt")
@@ -62,25 +61,27 @@ class DAOSlickPlayer extends DAOInterface {
     val result = db.run(query)
     val rows = Await.result(result, Duration.Inf)
 
-    val formattedRows = rows.map { case (name, chipId, chipColor) =>
-      s"  ${name}\t${chipId}\t${chipColor}"
+    val formattedRows = rows.map { case (id, name, chipId, chipColor) =>
+      s"  ${id}\t${name}\t${chipId}\t${chipColor}"
     }
     formattedRows.mkString("\n")
 
   override def update(input: String): Unit =
     val json: JsValue = Json.parse(input)
 
-    val playersNumbers = Seq("1", "2")
+    val playersNumbers = Seq(1, 2)
     playersNumbers.map(nr =>
       val player = (json \ "playground" \ s"player${nr}").get.toString().replaceAll("\"", "")
       val splitPlayer = player.split("&")
       val name: String = splitPlayer(0)
       val chip: (Int, String) = if (splitPlayer(1) == "RED") then (1, "RED_B") else (2, "YELLOW_B")
 
-      val insertAction = playerTable.insertOrUpdate(name, chip._1, chip._2)
+      val insertAction = playerTable.insertOrUpdate(nr, name, chip._1, chip._2)
       val insertResult = db.run(insertAction)
       Await.result(insertResult, Duration.Inf)
     )
 
-  override def delete(): Unit = ???
+  override def delete(): Unit =
+    val action = playerTable.delete
+    Await.result(db.run(action), Duration.Inf)
 }

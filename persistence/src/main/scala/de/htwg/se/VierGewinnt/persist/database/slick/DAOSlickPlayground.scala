@@ -13,7 +13,7 @@ import slick.jdbc.JdbcBackend.Database
 import slick.jdbc.PostgresProfile.api.*
 import slick.lifted.TableQuery
 
-class DAOSlickPlayground extends DAOInterface {
+object DAOSlickPlayground extends DAOInterface {
 
   val connectIP = sys.env.getOrElse("POSTGRES_IP", "localhost")
   val connectPort = sys.env.getOrElse("POSTGRES_PORT", 5432).toString.toInt

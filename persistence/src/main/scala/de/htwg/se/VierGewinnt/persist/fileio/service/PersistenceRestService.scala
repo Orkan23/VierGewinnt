@@ -65,7 +65,7 @@ object PersistenceRestService extends App {
     post {
       path("fileio" / "json" / "save") {
         entity(as[String]) { game =>
-          logger.info("Received save request with game: {}", game)
+          logger.info(s"Received save request with game: ${game.toString.replaceAll("\n","")}")
           fileIo.save(game)
           dao.update(game)
           complete("game saved")
@@ -89,6 +89,12 @@ object PersistenceRestService extends App {
           dao.update(game)
           complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "db update received"))
         }
+      }
+    },
+    get {
+      path("db" / "delete") {
+        dao.delete()
+        complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "db tables has been deleted"))
       }
     }
   )
