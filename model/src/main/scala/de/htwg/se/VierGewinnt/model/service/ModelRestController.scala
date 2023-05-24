@@ -91,7 +91,9 @@ class ModelRestController {
     val pl1: (String, Chip) = getNameAndChip(player1)
     val pl2: (String, Chip) = getNameAndChip(player2)
 
-    if (gameType == 0) then PlaygroundPvP(grid, List(HumanPlayer(pl1._1, pl1._2), HumanPlayer(pl2._1, pl2._2)))
+    val humanPlayer1 = HumanPlayer(pl1._1, pl1._2)  // create or get with slick
+    val humanPlayer2 = HumanPlayer(pl2._1, pl2._2) // create or get with slick
+    if (gameType == 0) then PlaygroundPvP(grid, List(humanPlayer1, humanPlayer2))
     else PlaygroundPvE(grid, List(HumanPlayer(pl1._1, pl1._2), BotPlayer(pl2._1, pl2._2)))
 
   def getNameAndChip(playerName: String): (String, Chip) =

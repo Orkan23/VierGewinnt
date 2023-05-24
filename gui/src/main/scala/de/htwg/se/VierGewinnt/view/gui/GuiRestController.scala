@@ -29,7 +29,7 @@ class GuiRestController {
   val executionContext: ExecutionContextExecutor = system.executionContext
 
   given ExecutionContextExecutor = executionContext
-  val coreServer = "http://0.0.0.0:8080/core"
+  val coreServer = "http://host.docker.internal:8080/core"
   val utilServer = "http://0.0.0.0:8083"
 
   def getGridSize: Int =

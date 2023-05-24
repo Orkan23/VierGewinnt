@@ -38,7 +38,6 @@ import scalafx.Includes.at
   *   Controller as parameter, which controls this GUI.
   */
 class GUI @Inject() (restController: GuiRestController) extends JFXApp3:
-  val coreService = "http://0.0.0.0:8080/"
 
   var chips: Vector[Vector[Circle]] = emptyChips()
   var chipGrid: GridPane = emptyGrid()
