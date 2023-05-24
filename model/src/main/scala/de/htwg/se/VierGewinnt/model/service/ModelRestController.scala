@@ -20,7 +20,7 @@ import scala.util.{Failure, Success}
 class ModelRestController {
   private val logger = LoggerFactory.getLogger(ModelRestService.getClass)
 
-  val system: ActorSystem[Any] = ActorSystem(Behaviors.empty, "CoreAPI")
+  val system: ActorSystem[Any] = ActorSystem(Behaviors.empty, "ModelAPI")
 
   given ActorSystem[Any] = system
 

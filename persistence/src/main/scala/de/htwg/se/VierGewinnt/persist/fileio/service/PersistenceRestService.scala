@@ -17,9 +17,11 @@ import akka.http.scaladsl.Http
 import akka.stream.scaladsl.Source
 import com.google.inject.Guice
 import com.google.inject.Injector
+import de.htwg.se.VierGewinnt.persist.database.DAOInterface
 import de.htwg.se.VierGewinnt.persist.fileio.FileIOInterface
 import de.htwg.se.VierGewinnt.persist.fileio.PersistenceModule
 import org.slf4j.LoggerFactory
+import play.api.libs.json.JsValue
 import play.api.libs.json.Json
 import scala.concurrent.*
 import scala.concurrent.ExecutionContextExecutor
@@ -30,6 +32,7 @@ import scala.util.Success
 object PersistenceRestService extends App {
   val injector: Injector = Guice.createInjector(PersistenceModule())
   val fileIo: FileIOInterface = injector.getInstance(classOf[FileIOInterface])
+  val dao: DAOInterface = injector.getInstance(classOf[DAOInterface])
 
   private val logger = LoggerFactory.getLogger(getClass)
 
@@ -64,7 +67,27 @@ object PersistenceRestService extends App {
         entity(as[String]) { game =>
           logger.info("Received save request with game: {}", game)
           fileIo.save(game)
+          dao.update(game)
           complete("game saved")
+        }
+      }
+    },
+    get {
+      path("db" / "create") {
+        dao.create()
+        complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "Database created"))
+      }
+    },
+    get {
+      path("db" / "read") {
+        complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, dao.read()))
+      }
+    },
+    post {
+      path("db" / "update") {
+        entity(as[String]) { game =>
+          dao.update(game)
+          complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "db update received"))
         }
       }
     }
@@ -73,6 +96,4 @@ object PersistenceRestService extends App {
   val bindingFuture = Http().newServerAt("0.0.0.0", 8081).bind(route)
 
   println(s"File IO REST service online at http://0.0.0.0:8081/fileio/json/hello")
-  StdIn.readLine()
-
 }

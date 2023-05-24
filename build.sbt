@@ -33,7 +33,6 @@ lazy val commonSettings = Seq(
   Docker / daemonUser := "root"
 )
 
-
 lazy val util = project
   .in(file("util"))
   .settings(
@@ -86,7 +85,8 @@ lazy val persistence = project
     description := "Persistence for Vier Gewinnt",
     commonSettings,
     dockerExposedPorts ++= Seq(8081),
-    logLevel := sbt.util.Level.Info
+    logLevel := sbt.util.Level.Info,
+    libraryDependencies += "org.postgresql" % "postgresql" % "42.5.4",
   )
   .enablePlugins(JavaAppPackaging, DockerPlugin)
 

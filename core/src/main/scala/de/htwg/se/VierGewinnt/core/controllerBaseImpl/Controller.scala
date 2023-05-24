@@ -58,7 +58,6 @@ class Controller @Inject() (
     restController: CoreRestController
 ) extends ControllerInterface:
   val fileIOServer = "http://0.0.0.0:8081/fileio"
-  val modelServer = "http://0.0.0.0:8082"
   private val logger = LoggerFactory.getLogger(getClass)
 
   /** Returns the size of the grid withing playground. */
