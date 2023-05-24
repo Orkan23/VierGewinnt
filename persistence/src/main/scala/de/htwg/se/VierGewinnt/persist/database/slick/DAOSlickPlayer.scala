@@ -23,7 +23,7 @@ import slick.lifted.TableQuery
 
 object DAOSlickPlayer extends DAOInterface {
 
-  val connectIP = sys.env.getOrElse("POSTGRES_IP", "0.0.0.0")
+  val connectIP = sys.env.getOrElse("POSTGRES_IP", "viergewinnt-db-1")
   val connectPort = sys.env.getOrElse("POSTGRES_PORT", 5432).toString.toInt
   val database_user = sys.env.getOrElse("POSTGRES_USER", "postgres")
   val database_pw = sys.env.getOrElse("POSTGRES_PASSWORD", "postgres")

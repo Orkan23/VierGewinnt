@@ -5,7 +5,7 @@ import de.htwg.se.VierGewinnt.persist.database.DAOInterface
 class DAOImpl extends DAOInterface {
 
   val daoPlayer = DAOSlickPlayer
-  val daoPlayground = DAOSlickPlayground
+  //val daoPlayground = DAOSlickPlayground
 
   override def create(): Unit =
     daoPlayer.create()
