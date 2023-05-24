@@ -6,10 +6,10 @@ import scala.util.Try
 object DAOSlick extends DAOInterface[PlaygroundTemplate] {
 
   val connectIP = sys.env.getOrElse("POSTGRES_IP", "localhost")
-  val connectPort = sys.env.getOrElse("POSTGRES_PORT", 8080).toString.toInt
+  val connectPort = sys.env.getOrElse("POSTGRES_PORT", 5432).toString.toInt
   val database_user = sys.env.getOrElse("POSTGRES_USER", "postgres")
   val database_pw = sys.env.getOrElse("POSTGRES_PASSWORD", "postgres")
-  val database_name = sys.env.getOrElse("POSTGRES_DB", "postgres")
+  val database_name = sys.env.getOrElse("POSTGRES_DB", "viergewinnt")
 
   val database =
     Database.forURL(
