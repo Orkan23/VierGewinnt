@@ -26,7 +26,9 @@ Choose between ( ${BOLD}gui${RESET} | ${BOLD}tui${RESET} | ${BOLD}both${RESET} )
 printf "$welcome_message"
 read RVIEW
 if [[ $RVIEW == "gui" ]]; then
-  sbt "run gui"
+  xhost +
+  sudo docker run --rm -ti --name gui --network host -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix gui:0.2.0-SNAPSHOT -d
+  xhost -
 elif [[ $RVIEW == "tui" ]]; then
   sbt "run tui"
 else

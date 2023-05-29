@@ -1,15 +1,4 @@
 services:
-  gui:
-    image: gui:0.2.0-SNAPSHOT
-    container_name: gui
-    build: .
-    environment:
-      - DISPLAY=${IP-localhost}:0
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-    network_mode: host
-    profiles:
-      - donotstart
   core:
     image: core:0.2.0-SNAPSHOT
     ports:
@@ -20,22 +9,31 @@ services:
       - util
     profiles:
       - donotstart
+    networks:
+      - viergewinnt
   persistence:
     image: persistence:0.2.0-SNAPSHOT
     ports:
       - "8081:8081"
     container_name: persistence
+    networks:
+      - viergewinnt
   model:
     image: model:0.2.0-SNAPSHOT
     ports:
       - "8082:8082"
     container_name: model
+    networks:
+      - viergewinnt
   util:
     image: util:0.2.0-SNAPSHOT
     ports:
       - "8083:8083"
     container_name: util
+    networks:
+      - viergewinnt
   db:
+    container_name: db
     image: postgres
     restart: always
     environment:
@@ -45,4 +43,10 @@ services:
       POSTGRES_IP: localhost
       POSTGRES_PORT: 5432
     ports:
-      - "5432:5432"
+      - "5436:5432"
+    networks:
+      - viergewinnt
+
+networks:
+  viergewinnt:
+    driver: bridge

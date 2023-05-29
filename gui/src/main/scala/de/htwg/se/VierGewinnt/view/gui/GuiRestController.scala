@@ -29,66 +29,82 @@ class GuiRestController {
   val executionContext: ExecutionContextExecutor = system.executionContext
 
   given ExecutionContextExecutor = executionContext
-  val coreServer = "http://0.0.0.0:8080/core" //host.docker.internal
+  val coreServer = "http://0.0.0.0:8080/core" // host.docker.internal
   val utilServer = "http://0.0.0.0:8083"
 
   def getGridSize: Int =
     val future: Future[String] = sendGetRequest(coreServer + "/gridSize")
-    val result: String = Await.result(future, Duration.Inf)
-    logger.info(result)
-    result.toInt
+    try {
+      val result: String = Await.result(future, Duration("1000ms"))
+      logger.info(result)
+      result.toInt
+    } catch {
+      case _: Exception =>
+        logger.error("Connection failed. Returning default value.")
+        7
+    }
 
-  def getPlaygroundState: String =
+  def getPlaygroundState: String = try {
     val future: Future[String] = sendGetRequest(coreServer + "/playgroundState")
-    val result: String = Await.result(future, Duration.Inf)
+    val result: String = Await.result(future, Duration("1000ms"))
     logger.info(result)
     result
+  } catch {
+    case _: Exception =>
+      logger.error("Connection failed. Returning default value.")
+      "state"
+  }
 
-  def getGameState: String =
+  def getGameState: String = try {
     val future: Future[String] = sendGetRequest(coreServer + "/gameState")
-    val result: String = Await.result(future, Duration.Inf)
+    val result: String = Await.result(future, Duration("1000ms"))
     logger.info(result)
     result
+  } catch {
+    case _: Exception =>
+      logger.error("Connection failed. Returning default value.")
+      "state"
+  }
 
   def getWinnerChips: Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] =
     val future: Future[String] = sendGetRequest(coreServer + "/winnerChips")
-    val result: String = Await.result(future, Duration.Inf)
+    val result: String = Await.result(future, Duration("1000ms"))
     logger.info(result)
     None
 
   def getChipColor(row: Int, col: Int): String =
     val future: Future[String] = sendGetRequest(s"${coreServer}/chipColor/${row}/${col}")
-    val result: String = Await.result(future, Duration.Inf)
+    val result: String = Await.result(future, Duration("1000ms"))
     result
 
   def doAndPublishInsertChip(move: Int): Unit =
     val future: Future[String] = sendGetRequest(s"${coreServer}/doAndPublish/insChip/${move}")
-    val result: String = Await.result(future, Duration.Inf)
+    val result: String = Await.result(future, Duration("1000ms"))
     logger.info(result)
 
   def doAndPublishUndo: Unit =
     val future: Future[String] = sendGetRequest(s"${coreServer}/doAndPublish/undo")
-    val result: String = Await.result(future, Duration.Inf)
+    val result: String = Await.result(future, Duration("1000ms"))
     logger.info(result)
 
   def doAndPublishRedo: Unit =
     val future: Future[String] = sendGetRequest(s"${coreServer}/doAndPublish/redo")
-    val result: String = Await.result(future, Duration.Inf)
+    val result: String = Await.result(future, Duration("1000ms"))
     logger.info(result)
 
   def save: Unit =
     val future: Future[String] = sendGetRequest(s"${coreServer}/save")
-    val result: String = Await.result(future, Duration.Inf)
+    val result: String = Await.result(future, Duration("1000ms"))
     logger.info(result)
 
   def load: Unit =
     val future: Future[String] = sendGetRequest(s"${coreServer}/load")
-    val result: String = Await.result(future, Duration.Inf)
+    val result: String = Await.result(future, Duration("1000ms"))
     logger.info(result)
 
   def setupGame(gameType: Int, size: Int): String =
     val future: Future[String] = sendGetRequest(s"${coreServer}/setupGame/${gameType}/${size}")
-    val result: String = Await.result(future, Duration.Inf)
+    val result: String = Await.result(future, Duration("1000ms"))
     result
 
   def addToObserver: Unit =
@@ -97,7 +113,7 @@ class GuiRestController {
       "serverAddress" -> "http://0.0.0.0:3000"
     )
     val future: Future[String] = sendPostRequest(s"${utilServer}/observer/add", observerPayload.toString)
-    val result: String = Await.result(future, Duration.Inf)
+    val result: String = Await.result(future, Duration("1000ms"))
     logger.info(result)
 
   def sendGetRequest(url: String): Future[String] =

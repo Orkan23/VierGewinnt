@@ -55,8 +55,7 @@ lazy val gui = project
     logLevel := sbt.util.Level.Info,
     dockerCommands ++= Seq(
       ExecCmd("RUN", "apt-get", "update"),
-      ExecCmd("RUN", "apt-get", "install", "-y", "openjfx", "dbus-x11", "csh", "libgl1", "libx11-6"),
-      ExecCmd("CMD", "sbt", "run")
+      ExecCmd("RUN", "apt-get", "install", "-y", "openjfx", "dbus-x11", "csh", "libgl1", "libx11-6")
     )
   )
   .enablePlugins(JavaAppPackaging, DockerPlugin)
@@ -86,7 +85,7 @@ lazy val persistence = project
     commonSettings,
     dockerExposedPorts ++= Seq(8081),
     logLevel := sbt.util.Level.Info,
-    libraryDependencies += "org.postgresql" % "postgresql" % "42.5.4",
+    libraryDependencies += "org.postgresql" % "postgresql" % "42.5.4"
   )
   .enablePlugins(JavaAppPackaging, DockerPlugin)
 
