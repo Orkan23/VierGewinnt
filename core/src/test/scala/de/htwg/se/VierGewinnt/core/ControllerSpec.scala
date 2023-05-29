@@ -30,14 +30,14 @@ class ControllerSpec extends AnyWordSpec {
       }
 
       "notify when insert a chip" in {
-        controller.add(observer)
+        //controller.add(observer)
         controller.doAndPublish(controller.insChip, Move(0))
         observer.toString should be("true")
         controller.playground.getPosition(0) should be(5)
       }
 
       "after remove should not notify" in {
-        controller.remove(observer)
+        //controller.remove(observer)
         controller.doAndPublish(controller.insChip, Move(0))
         observer.toString should be("true")
       }

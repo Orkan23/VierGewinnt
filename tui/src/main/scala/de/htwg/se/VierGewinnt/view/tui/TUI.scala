@@ -16,7 +16,7 @@ import scala.util.Try
   *   Controller as parameter, which controls this TUI.
   */
 class TUI(controller: ControllerInterface) extends Observer:
-  controller.add(this)
+  //controller.add(this)
 
   /** Starting point of the tui. */
   def run =
