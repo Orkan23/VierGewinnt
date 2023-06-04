@@ -27,12 +27,13 @@ lazy val commonSettings = Seq(
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
     ("com.typesafe.slick" %% "slick" % "3.5.0-M3").cross(CrossVersion.for3Use2_13),
     "org.slf4j" % "slf4j-nop" % "2.0.5",
-    "org.mongodb.scala" %% "mongo-scala-driver" % "2.6.0"
+    "org.mongodb.scala" %% "mongo-scala-driver" % "4.8"
   ),
   dockerBaseImage := "sbtscala/scala-sbt:eclipse-temurin-jammy-17.0.5_8_1.8.3_3.2.2",
   Docker / daemonUserUid := None,
   Docker / daemonUser := "root"
 )
+// https://www.mongodb.com/docs/drivers/scala/
 
 lazy val util = project
   .in(file("util"))
