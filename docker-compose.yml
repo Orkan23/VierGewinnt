@@ -46,6 +46,17 @@ services:
       - "5436:5432"
     networks:
       - viergewinnt
+  mongoDB:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    container_name: mongoDB
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+      MONGO_INITDB_DATABASE: VierGewinnt
+    networks:
+      - viergewinnt
 
 networks:
   viergewinnt:

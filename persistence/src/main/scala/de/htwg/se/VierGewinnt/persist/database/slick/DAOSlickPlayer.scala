@@ -41,7 +41,7 @@ object DAOSlickPlayer extends DAOInterface {
 
   val tables = Await.result(db.run(MTable.getTables), Duration.Inf).toList
 
-  override def create(): Unit =
+  override def create: Unit =
     Await.result(
       db.run(
         DBIO.seq(
@@ -56,7 +56,7 @@ object DAOSlickPlayer extends DAOInterface {
       Duration.Inf
     )
 
-  override def read(): String =
+  override def read: String =
     val query = playerTable.result
     val result = db.run(query)
     val rows = Await.result(result, Duration.Inf)
@@ -81,7 +81,7 @@ object DAOSlickPlayer extends DAOInterface {
       Await.result(insertResult, Duration.Inf)
     )
 
-  override def delete(): Unit =
+  override def delete: Unit =
     val action = playerTable.delete
     Await.result(db.run(action), Duration.Inf)
 }

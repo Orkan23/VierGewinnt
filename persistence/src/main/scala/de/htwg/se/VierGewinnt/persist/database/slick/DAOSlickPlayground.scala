@@ -29,11 +29,11 @@ object DAOSlickPlayground extends DAOInterface {
       driver = "org.postgresql.Driver"
     )
 
-  override def create(): Unit = ???
+  override def create: Unit = ???
 
-  override def read(): String = ???
+  override def read: String = ???
 
   override def update(input: String): Unit = ???
 
-  override def delete(): Unit = ???
+  override def delete: Unit = ???
 }

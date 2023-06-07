@@ -74,13 +74,13 @@ object PersistenceRestService extends App {
     },
     get {
       path("db" / "create") {
-        dao.create()
+        dao.create
         complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "Database created"))
       }
     },
     get {
       path("db" / "read") {
-        complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, dao.read()))
+        complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, dao.read))
       }
     },
     post {
@@ -93,7 +93,7 @@ object PersistenceRestService extends App {
     },
     get {
       path("db" / "delete") {
-        dao.delete()
+        dao.delete
         complete(HttpEntity(ContentTypes.`text/plain(UTF-8)`, "db tables has been deleted"))
       }
     }
