@@ -1,0 +1,205 @@
+{
+  "playground" : {
+    "size" : 7,
+    "gameType" : 0,
+    "player1" : "Player 1&YELLOW",
+    "player2" : "Player 2&RED",
+    "cells" : [ {
+      "row" : 0,
+      "col" : 0,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 0,
+      "col" : 1,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 0,
+      "col" : 2,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 0,
+      "col" : 3,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 0,
+      "col" : 4,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 0,
+      "col" : 5,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 0,
+      "col" : 6,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 1,
+      "col" : 0,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 1,
+      "col" : 1,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 1,
+      "col" : 2,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 1,
+      "col" : 3,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 1,
+      "col" : 4,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 1,
+      "col" : 5,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 1,
+      "col" : 6,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 2,
+      "col" : 0,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 2,
+      "col" : 1,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 2,
+      "col" : 2,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 2,
+      "col" : 3,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 2,
+      "col" : 4,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 2,
+      "col" : 5,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 2,
+      "col" : 6,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 3,
+      "col" : 0,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 3,
+      "col" : 1,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 3,
+      "col" : 2,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 3,
+      "col" : 3,
+      "chip" : "YELLOW"
+    }, {
+      "row" : 3,
+      "col" : 4,
+      "chip" : "RED"
+    }, {
+      "row" : 3,
+      "col" : 5,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 3,
+      "col" : 6,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 4,
+      "col" : 0,
+      "chip" : "YELLOW"
+    }, {
+      "row" : 4,
+      "col" : 1,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 4,
+      "col" : 2,
+      "chip" : "RED"
+    }, {
+      "row" : 4,
+      "col" : 3,
+      "chip" : "YELLOW"
+    }, {
+      "row" : 4,
+      "col" : 4,
+      "chip" : "RED"
+    }, {
+      "row" : 4,
+      "col" : 5,
+      "chip" : "YELLOW"
+    }, {
+      "row" : 4,
+      "col" : 6,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 5,
+      "col" : 0,
+      "chip" : "RED"
+    }, {
+      "row" : 5,
+      "col" : 1,
+      "chip" : "YELLOW"
+    }, {
+      "row" : 5,
+      "col" : 2,
+      "chip" : "RED"
+    }, {
+      "row" : 5,
+      "col" : 3,
+      "chip" : "RED"
+    }, {
+      "row" : 5,
+      "col" : 4,
+      "chip" : "RED"
+    }, {
+      "row" : 5,
+      "col" : 5,
+      "chip" : "YELLOW"
+    }, {
+      "row" : 5,
+      "col" : 6,
+      "chip" : "EMPTY"
+    }, {
+      "row" : 6,
+      "col" : 0,
+      "chip" : "YELLOW"
+    }, {
+      "row" : 6,
+      "col" : 1,
+      "chip" : "RED"
+    }, {
+      "row" : 6,
+      "col" : 2,
+      "chip" : "YELLOW"
+    }, {
+      "row" : 6,
+      "col" : 3,
+      "chip" : "YELLOW"
+    }, {
+      "row" : 6,
+      "col" : 4,
+      "chip" : "RED"
+    }, {
+      "row" : 6,
+      "col" : 5,
+      "chip" : "YELLOW"
+    }, {
+      "row" : 6,
+      "col" : 6,
+      "chip" : "RED"
+    } ]
+  }
+}
